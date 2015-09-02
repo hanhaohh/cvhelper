@@ -70,7 +70,7 @@ class Linkedin (Thread):
 		head = "www.linkedin.com"
 		List = []
 		format1 = re.compile(r'link_viewJob_2"\:"[\w\d\s\;\:\/\=\?\.\$\&\%]*')
-		page = "https://www.linkedin.com/vsearch/j?type=jobs&keywords="+term+"&orig=GLHD&rsid=2060029261441227217895&pageKey=voltron_job_search_internal_jsp&search=Search&locationType=I&countryCode=cn&openFacets=L,C&page_num="+str(page)+"&pt=jobs"
+		page = "https://www.linkedin.com/vsearch/j?type=jobs&keywords="+term+"&orig=GLHD&rsid=2060029261441227217895&pageKey=voltron_job_search_internal_jsp&search=Search&locationType=I&countryCode=us&openFacets=L,C&page_num="+str(page)+"&pt=jobs"
 		soup1 = BeautifulSoup(self.session.get(page).text.encode("utf-8"))
 		list1 = str(soup1.find('div',{"id":"srp_main_"}))
 		time.sleep(random.randint(5,8)) 
@@ -79,7 +79,7 @@ class Linkedin (Thread):
 			for j in contacts:
 				url = head+j.split('\"')[2].replace(";",'').replace("&amp","&")
 				List.append(url)
-			save(List,self.out)
+			save(list(set(List)),self.out)
 	def run(self):
 		while not self.EXIT_FLAG:
 			queueLock.acquire()
