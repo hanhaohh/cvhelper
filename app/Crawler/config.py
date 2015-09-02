@@ -1,6 +1,6 @@
 from Queue import Queue
 import os
-QUEUE_SIZE = 3
+QUEUE_SIZE = 40
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DOWNLOAD_DIR = os.path.join(os.path.dirname(BASE_DIR), 'WebPages')
 HISTORY_FILE = os.path.join(DOWNLOAD_DIR, 'record.his')
@@ -46,3 +46,4 @@ DOWNLOAD_RESULT = {
       "SUCCESS":300, \
       "FAIL":400, \
 }
+accounts = [{"sxhanhao@gmail.com":"hanhaohh"}, {"io0910@live.cn":"chaojicai00"}]

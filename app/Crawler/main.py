@@ -1,6 +1,7 @@
 # from config import URL_DOWNLOAD_LIST, URL_VISITED_FILE_LIST, DOWLOAD_THREAD_POOL_SIZE, ANAYLIZER_THREAD_POOL_SIZE
 from time import sleep
 from mult_proc_linkedin import *
+from config import accounts
 if __name__ == '__main__':
     output = "linkedin.list"
     term = "data"
@@ -9,11 +10,10 @@ if __name__ == '__main__':
         queue.put(i)
 
     #start the threads
-    threadList = ["Thread-1", "Thread-2", "Thread-3"]
     threads = []
     process_id  = 1
-    for tName in threadList:
-        thread = Linkedin("hanhaohh@126.com", "hanhaohh",queue =queue,thread_name=tName,thread_id = process_id,term=term,out=output)
+    for account in accounts:
+        thread = Linkedin(account.keys()[0],account.values()[0],queue =queue,thread_name=account.values()[0],thread_id = process_id,term=term,out=output)
         threads.append(thread)
         process_id = process_id+1
     for i in threads:
@@ -23,6 +23,7 @@ if __name__ == '__main__':
         pass
     for i in threads:
         i.stop() 
+            
     # thread_pool_download = []
     # thread_pool_link_extract = []
 

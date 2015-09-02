@@ -65,23 +65,21 @@ class Linkedin (Thread):
 		self.session.post('https://www.linkedin.com/uas/login-submit', data=self.get_credential())
 
 	def crawl(self,page):
+		term = self.term
 		self.login()
+		head = "www.linkedin.com"
 		List = []
-		format1 = re.compile(r'link_nprofile_view_3"\:"[\\\w\d\s\:\/\=\?\.\$\&\%]*')
-		page = "https://www.linkedin.com/vsearch/p?type=people&keywords="+self.term+"&openFacets=N,G,CC&pt=people&orig=FCTD&page_num="+str(page)
-	   	soup1 = BeautifulSoup(self.session.get(page).text.encode("utf-8"))
-	   	list1 = str(soup1.find('div',{"id":"srp_main_"}))
-	  	time.sleep(random.randint(6,12)) 
-	   	if list1.find("link_nprofile_view_3"):
-	   		contacts = format1.findall(list1)  
-	        print contacts
-	        for j in contacts:
-	        	#get rid of the \u002d, it is "-" in unicode
-	        	j = j.replace("\u002d","-")
-	        	url = j.split('\"')[2]
-	        	List.append(url)
-	        save(List,self.out)
-
+		format1 = re.compile(r'link_viewJob_2"\:"[\w\d\s\;\:\/\=\?\.\$\&\%]*')
+		page = "https://www.linkedin.com/vsearch/j?type=jobs&keywords="+term+"&orig=GLHD&rsid=2060029261441227217895&pageKey=voltron_job_search_internal_jsp&search=Search&locationType=I&countryCode=cn&openFacets=L,C&page_num="+str(page)+"&pt=jobs"
+		soup1 = BeautifulSoup(self.session.get(page).text.encode("utf-8"))
+		list1 = str(soup1.find('div',{"id":"srp_main_"}))
+		time.sleep(random.randint(5,8)) 
+		if list1.find("link_viewJob_2"):
+			contacts = format1.findall(list1)  
+			for j in contacts:
+				url = head+j.split('\"')[2].replace(";",'').replace("&amp","&")
+				List.append(url)
+			save(List,self.out)
 	def run(self):
 		while not self.EXIT_FLAG:
 			queueLock.acquire()
