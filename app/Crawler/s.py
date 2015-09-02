@@ -1,0 +1,3 @@
+import d
+
+d.aaa()
