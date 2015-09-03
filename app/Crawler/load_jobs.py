@@ -27,7 +27,10 @@ class DownloadJob(threading.Thread):
         opener = urllib2.build_opener(cookies,proxyHandler)
         opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0')]
         urllib2.install_opener(opener)
-        data = opener.open("https://"+url,timeout=self.timeout).read()
+        try:
+            data = opener.open("https://"+url,timeout=self.timeout).read()
+        except:
+            data = ""
         save_data(data,DOWNLOAD_DIR+str(int(time.time())))
         if (data) == "":
             return False
