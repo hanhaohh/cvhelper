@@ -2,10 +2,14 @@ from Queue import Queue
 import os
 QUEUE_SIZE = 40
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-DOWNLOAD_DIR = os.path.join(os.path.dirname(BASE_DIR), 'WebPages')
+DOWNLOAD_DIR = os.path.join(os.path.dirname(__file__), 'WebPages/')
+print DOWNLOAD_DIR
 HISTORY_FILE = os.path.join(DOWNLOAD_DIR, 'record.his')
 LOG_FILE = os.path.join(DOWNLOAD_DIR, 'process.log')
 DATABASE = os.path.join(BASE_DIR, 'data.db')
+
+checkedProxyList = ["202.4.186.102:80","103.27.111.246:80","173.201.177.140:80","111.13.109.8:80","119.187.148.35:80",\
+"98.117.210.21:80","54.178.196.171:80","210.3.4.161:80","89.43.53.37:80","108.178.184.45:80"]
 
 HEADER = '\033[95m'
 OKBLUE = '\033[94m'
