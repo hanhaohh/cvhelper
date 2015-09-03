@@ -40,7 +40,6 @@ class DownloadJob(threading.Thread):
     
     def download(self):
         url = self.job_queue.get()
-        time.sleep(random.randint(6,12)) 
         while not self.opener(url):
              self.opener(url)
    
