@@ -1,6 +1,7 @@
 import os 
 from BeautifulSoup import BeautifulSoup
-
+from nltk.stem.snowball import SnowballStemmer
+import re, string
 def save(data, filename, dir=None):
     try:
         with open(filename, 'a') as f:
@@ -38,3 +39,34 @@ def save_data(data,filename):
     except :
         pass
     f.close()
+
+def word_tokenize(text):
+    try:
+        return text.split("\t\t")[3].split(" ")
+    except:
+        return ""
+def stem(word):
+    try:
+        stemmer = SnowballStemmer("english").stem
+        return stemmer(word)
+    except:
+        return ""
+ 
+def clean_html(html):
+    # First we remove inline JavaScript/CSS:
+    cleaned = re.sub(r"(?is)<(script|style).*?>.*?(</\1>)", "", html.strip())
+    # Then we remove html comments. This has to be done before removing regular
+    # tags since comments can contain '>' characters.
+    cleaned = re.sub(r"(?s)<!--(.*?)-->[\n]?", "", cleaned)
+    # Next we can remove the remaining tags:
+    cleaned = re.sub(r"(?s)<.*?>", " ", cleaned)
+    # Finally, we deal with whitespace
+    cleaned = re.sub(r"&nbsp;", " ", cleaned)
+    cleaned = re.sub(r"  ", " ", cleaned)
+    cleaned = re.sub(r"  ", " ", cleaned)
+    return cleaned.strip()
+    raise NotImplementedError ("To remove HTML markup, use BeautifulSoup's get_text() function")
+def remove_punc(text):
+    for c in string.punctuation:
+        text= text.replace(c,"")
+    return text
