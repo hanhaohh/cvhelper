@@ -1,7 +1,13 @@
 import os 
 from BeautifulSoup import BeautifulSoup
+from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 import re, string
+from nltk.stem.porter import *
+from nltk.stem import *
+from nltk.stem import WordNetLemmatizer
+wnl = WordNetLemmatizer()
+
 def save(data, filename, dir=None):
     try:
         with open(filename, 'a') as f:
@@ -47,7 +53,8 @@ def word_tokenize(text):
         return ""
 def stem(word):
     try:
-        stemmer = SnowballStemmer("english").stem
+        #stemmer = SnowballStemmer("english").stem
+        stemmer = PorterStemmer().stem
         return stemmer(word)
     except:
         return ""
@@ -61,6 +68,8 @@ def clean_html(html):
     # Next we can remove the remaining tags:
     cleaned = re.sub(r"(?s)<.*?>", " ", cleaned)
     # Finally, we deal with whitespace
+    cleaned = re.sub(r"[\x90-\xff]", " ", cleaned)
+    cleaned = re.sub(r"[\x80]", " ", cleaned)
     cleaned = re.sub(r"&nbsp;", " ", cleaned)
     cleaned = re.sub(r"  ", " ", cleaned)
     cleaned = re.sub(r"  ", " ", cleaned)
@@ -70,3 +79,18 @@ def remove_punc(text):
     for c in string.punctuation:
         text= text.replace(c,"")
     return text
+
+
+def plural_to_sing(word):
+    try:
+        lemma = wnl.lemmatize(word, 'n')
+        plural = True if word is not lemma else False
+        return lemma
+    except:
+        return ""
+
+def rm_stop_words(token):
+    if token not in stopwords.words("english"):
+        return token
+    else :
+        return ""
