@@ -51,6 +51,9 @@ def word_tokenize(text):
         return text.split("\t\t")[3].split(" ")
     except:
         return ""
+def get_loc_job_title(text):
+    total = text.split("\t\t")
+    return total[0],total[1],total[2]
 def stem(word):
     try:
         #stemmer = SnowballStemmer("english").stem
@@ -87,6 +90,7 @@ def plural_to_sing(word):
         plural = True if word is not lemma else False
         return lemma
     except:
+        print "exception in plural_to_sing"
         return ""
 
 def rm_stop_words(token):

@@ -4,7 +4,7 @@ class Node(object):
 	def __init__(self,word = None,docId =None,count= None,node=None):
 		self.word = str(word)
 		self.docId = int(docId)
-		self.count = count
+		self.count = int(count)
 		self._next = node
 	@property
 	def next_node(self):
@@ -59,9 +59,19 @@ class LinkedList(object):
 	def get_doc_ID(self):
 		trav_node = self.head
 		li = []
+		first = 1
 		while trav_node:
-			li.append(trav_node.docId)
-			trav_node = trav_node.next_node
+			for i in range(first,trav_node.docId+1):
+				if i == trav_node.docId:
+					li.append(trav_node.count)
+				else:
+					li.append(0)
+			if trav_node.docId:
+				first = trav_node.docId+1
+				trav_node = trav_node.next_node
+		while (2000-first):
+			first = first + 1
+			li.append(0) 
 		return li
 	def  __getitem__(self, key):
 		trav_node = self.head 
